@@ -1,8 +1,8 @@
-# MyNews!
+# MyMovies!
 
-## Your #1 World News site powered by NewsApi.org.
+## Your #1 Movie Search Site  powered by <a href='https://www.themoviedb.org/'> TMDB </a>
 
-## Search consist of 80,000 different sources and small in the last 3 years.
+
 
 # built with:
-    Luxon, Axios, dotenv, and Bulma.
+    Luxon, Axios, dotenv, Material-UI, and Bulma.

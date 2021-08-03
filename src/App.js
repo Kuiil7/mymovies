@@ -3,6 +3,7 @@ import axios from 'axios';
 import { DateTime } from 'luxon';
 import { Badge} from '@material-ui/core';
 
+import { makeStyles } from "@material-ui/core/styles";
 
 
 
@@ -22,7 +23,14 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
 
+  const [addModalOpen, setAddModalOpen] = useState(false);
 
+  const handleAddClick = () => {
+    setAddModalOpen(true);
+  };
+  const handleClose = () => {
+    setAddModalOpen(false);
+  };
 
   const [url, setUrl] = useState(
 
@@ -55,8 +63,16 @@ function App() {
 
 
 
+  const useStyles = makeStyles((theme) => ({
+    badge: {
+      fontSize: 30
+    }
+  }));
 
 
+
+
+  const classes = useStyles();
   return (
     <Fragment>
 
@@ -90,7 +106,7 @@ function App() {
 
           }`
         );
-
+        handleClose();
         event.preventDefault();
       }}>
 
@@ -120,7 +136,7 @@ function App() {
         <div>Loading Most Popular Movies...</div>
       ) : (
         <div className="container ">
-<div className="columns is-flex-wrap-wrap is-centered">
+<div className="columns is-flex-wrap-wrap is-centered p-2">
 
 {data.results && data.results.map(result => (
 
@@ -136,6 +152,7 @@ function App() {
 <img alt="movie poster" src={'https://image.tmdb.org/t/p/original/' + result.poster_path} onError={e => e.target.style.display = 'none'}  />
 
 <li className=' is-size-6 is-primary mb-2'>
+
  <strong> {result.title}</strong>
   </li>
 
@@ -158,27 +175,51 @@ Language:
 <strong>Popularity:</strong> {result.popularity}
 
 </li>
+<p className="has-text-centered mt-2">
+<i  className="far fa-star fa-3x has-text-warning ">
+
+</i>
+</p>
+<p className="has-text-centered mt-4 has-text-primary">
+
+<Badge badgeContent={  "10/" + result.vote_average} classes={{ badge: classes.badge }}></Badge>
 
 
-<li className="mt-4 has-text-centered">
-
-
-<Badge badgeContent={ "10/" + result.vote_average}  >
-<i  className="far fa-star fa-4x has-text-warning"></i>
-</Badge>
-
-</li>
+</p>
 
 
 
 
 
-<li className="is-pulled-right mt-2">
+<li className="is-pulled-right mt-4">
 
  Total Votes: {result.vote_count}
 </li>
 
+<div className="dropdown is-hoverable mt-2" >
+  <div className="dropdown-trigger">
+    <button className="button" aria-haspopup="true" aria-controls="dropdown-menu2"    onClick={handleAddClick}>
+      <span>Movie Overview</span>
 
+      <span className="icon is-small">
+        <i className="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+    </button>
+  </div>
+  <div className="dropdown-menu" id="dropdown-menu2" role="menu"    isVisible={addModalOpen}>
+    <div className="dropdown-content" >
+
+
+      <div className="dropdown-item">
+      <img alt="movie poster" src={'https://image.tmdb.org/t/p/original/' + result.backdrop_path} onError={e => e.target.style.display = 'none'}  />
+     {result.overview}
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
 
 </ul>
         </div>

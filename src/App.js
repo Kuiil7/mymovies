@@ -8,7 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 
 
-import './App.css'
+
 
 require('dotenv').config()
 
@@ -33,11 +33,7 @@ function App() {
   };
 
   const [url, setUrl] = useState(
-
-    `
-    https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.REACT_APP_API_KEY}
-    `
-
+  ` https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.REACT_APP_API_KEY}`
   );
 
 
@@ -47,7 +43,6 @@ function App() {
     const fetchData = async () => {
 
       setIsLoading(true);
-
       setIsError(false);
 
       const result = await axios(url);
@@ -101,9 +96,6 @@ function App() {
 <form onSubmit={event => {
         setUrl(
            ` https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${query}
-
-
-
           }`
         );
         handleClose();
@@ -119,7 +111,6 @@ function App() {
           onChange={event => setQuery(event.target.value)}
           className="input is-primary mb-2"
           placeholder="enter a keyword"
-
         />
    <button className="button is-small is-primary" type="submit">Search</button>
 
@@ -142,11 +133,8 @@ function App() {
 
   <div key={result.id} className="column is-one-quarter box m-1  " >
 
-
 <div >
       <div className='reverse-columns is-link is-small is-size-7'>
-
-
 
 <ul >
 <img alt="movie poster" src={'https://image.tmdb.org/t/p/original/' + result.poster_path} onError={e => e.target.style.display = 'none'}  />
@@ -155,71 +143,51 @@ function App() {
 
  <strong> {result.title}</strong>
   </li>
+  <li className=' is-size-6 is-primary mb-2'>
+
+ <strong> {result.name}</strong>
+  </li>
 
 <li>
-<strong>Release: </strong>{DateTime.fromISO(result.release_date).toFormat('LLLL dd, yyyy')}
+<strong className='has-text-primary'>Release: </strong>{DateTime.fromISO(result.release_date).toFormat('LLLL dd, yyyy')}
+
+</li>
+<li>
+<strong className='has-text-primary'>First Aired: </strong>{DateTime.fromISO(result.first_air_date).toFormat('LLLL dd, yyyy')}
 
 </li>
 
 <li>
 
-<strong>
+<strong className='has-text-primary'>
 Language:
-</strong> {result.original_language}
-
+</strong> {result.original_language.toUpperCase()}
+</li>
+<li>
+<strong className='has-text-primary'>Popularity:</strong> {result.popularity}
 
 </li>
-
-
 <li>
-<strong>Popularity:</strong> {result.popularity}
+<strong className='has-text-primary'>Media Type:</strong> {result.media_type.toUpperCase()}
 
 </li>
 <p className="has-text-centered mt-2">
 <i  className="far fa-star fa-3x has-text-warning ">
-
 </i>
 </p>
 <p className="has-text-centered mt-4 has-text-primary">
-
-<Badge badgeContent={  "10/" + result.vote_average} classes={{ badge: classes.badge }}></Badge>
-
-
+<Badge classes={{ badge: classes.badge }} badgeContent={  result.vote_average + "/10" } ></Badge>
+</p>
+<p className='mt-2 has-text-centered'>
+<strong className='has-text-primary'>Total Votes:</strong> {result.vote_count}
 </p>
 
+<p className='mt-3'>
+<strong className='has-text-primary'>Overview:</strong> {result.overview}
+</p>
 
+<br />
 
-
-
-<li className="is-pulled-right mt-4">
-
- Total Votes: {result.vote_count}
-</li>
-
-<div className="dropdown is-hoverable mt-2" >
-  <div className="dropdown-trigger">
-    <button className="button" aria-haspopup="true" aria-controls="dropdown-menu2"    onClick={handleAddClick}>
-      <span>Movie Overview</span>
-
-      <span className="icon is-small">
-        <i className="fas fa-angle-down" aria-hidden="true"></i>
-      </span>
-    </button>
-  </div>
-  <div className="dropdown-menu" id="dropdown-menu2" role="menu"    isVisible={addModalOpen}>
-    <div className="dropdown-content" >
-
-
-      <div className="dropdown-item">
-      <img alt="movie poster" src={'https://image.tmdb.org/t/p/original/' + result.backdrop_path} onError={e => e.target.style.display = 'none'}  />
-     {result.overview}
-
-
-      </div>
-
-    </div>
-  </div>
-</div>
 
 </ul>
         </div>

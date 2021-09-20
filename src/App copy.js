@@ -19,7 +19,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [url, setUrl] = useState(
-  `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.REACT_APP_API_KEY}`
+  ` https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.REACT_APP_API_KEY}`
   );
 
 
@@ -47,7 +47,9 @@ function App() {
 
 
 
-  return (<Fragment>
+
+  return (
+    <Fragment>
 
 <section className="hero is-success is-small">
   <div className="hero-body">
@@ -68,6 +70,7 @@ function App() {
 
   </div>
 </section>
+
 
 
 <form onSubmit={event => {
@@ -96,6 +99,7 @@ function App() {
 
 
  </form>
+
 
 
 
@@ -142,10 +146,7 @@ function App() {
 
 <li><strong className='has-text-primary'>Release: </strong>{DateTime.fromISO(result.release_date).toFormat('LLLL dd, yyyy')}</li>
 
-
-
-
-
+<li ><strong className='has-text-primary'>First Aired: </strong>{DateTime.fromISO(result.first_air_date  ).toFormat('LLLL dd, yyyy')  } </li>
 <li>
 
 <strong className='has-text-primary'>
@@ -188,10 +189,6 @@ Language:
         </div>
 
       )}
-
-
-
-
 
 
 <div >

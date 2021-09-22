@@ -73,37 +73,42 @@ function People() {
       {isLoading ? (
         <div>Loading People...</div>
       ) : (
-        <div className="container ">
-<div className="columns is-flex-wrap-wrap is-centered p-2">
+        <div className="container  ">
+<div className="columns is-flex-wrap-wrap is-centered p-2 ">
 
-{data.results  && data.results.map(result => (
+{data.results  && data.results.map((result, index) => (
 
-  <div key={result} className="column is-one-quarter m-1  " >
-      <div className='reverse-columns is-link is-small is-size-7'>
+  <div key={index} className="column is-one-quarter m-1 box " >
+      <div className='reverse-columns is-link is-small is-size-7 '>
 
 
 <section>
-<div className="card">
-  <div className="card-image">
+
+
+
+
+
+
+
     <figure className="image ">
     <img alt="movie poster" src={'https://image.tmdb.org/t/p/original/' + result.profile_path} onError={e => e.target.style.display = 'none'}  />
 
 </figure>
-  </div>
 
-  <div className="card-content" >
-    <div className="media">
+  <p className="title is-4 has-text-primary mb-1">{result.name}</p>
 
-      <div className="media-content">
-        <p className="title is-4 has-text-primary">{result.name}</p>
-        <p className="subtitle is-6">{result.known_for_department}</p>
-      </div>
-      <i className="fas fa-star has-text-warning fa-1x mt-1 mr-1"></i>
-      <p>{result.popularity}</p>
 
-    </div>
+        <p className="subtitle is-7 m-1">{result.known_for_department}
+        </p>
 
-    <div className="is-mobile has-text-primary" >
+        <i className="fas fa-star has-text-warning fa-1x  mr-1"></i>
+        {result.popularity}
+
+
+
+
+
+    <div className="is-mobile has-text-primary mt-2" >
   <p   >
     {result.known_for[0].title }
   </p>
@@ -116,9 +121,6 @@ function People() {
 
 </div>
 
-
-  </div>
-</div>
 
 
 

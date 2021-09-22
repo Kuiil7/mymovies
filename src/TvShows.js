@@ -89,7 +89,7 @@ function App() {
 
 {data.results  && data.results.map(result => (
 
-  <div key={result.id} className="column is-one-quarter box m-1  " >
+  <div key={result} className="column is-one-quarter box m-1  " >
       <div className='reverse-columns is-link is-small is-size-7'>
 
 <ul >
@@ -178,7 +178,7 @@ Language:
 
         </div>
 
-      )}
+
 
 
 <div >

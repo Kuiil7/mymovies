@@ -59,7 +59,7 @@ function Movies() {
           value={query}
           onChange={event => setQuery(event.target.value)}
           className="input is-primary mb-2 is-rounded"
-          placeholder="enter a movie"
+          placeholder="enter a movie name"
         />
    <button className="button is-small is-rounded is-primary" type="submit">Search</button>
 
@@ -77,9 +77,9 @@ function Movies() {
         <div className="container ">
 <div className="columns is-flex-wrap-wrap is-centered p-2">
 
-{data.results  && data.results.map(result => (
+{data.results  && data.results.map((result, index)=> (
 
-  <div key={result.id} className="column is-one-quarter box m-1  " >
+  <div key={index} className="column is-one-quarter box m-1  " >
       <div className='reverse-columns is-link is-small is-size-7'>
 
 <ul >

@@ -24,11 +24,17 @@ powered by <a href='https://www.themoviedb.org/'> TMDB </a>
 </p>
   </div>
 
-<div className="tabs ">
+<div className="tabs is-boxed">
   <ul>
-  <li ><Link to="/movies">Movies</Link></li>
-    <li><Link to="/tvshows">TV Shows</Link></li>
-    <li><Link to="/people">People</Link></li>
+  <li ><Link to="/movies" >Movies</Link></li>
+    <li>
+
+<Link to="/tvshows" >TV Shows</Link>
+
+      </li>
+
+     < li>  <Link to="/people" >People</Link>
+    </li>
 
   </ul>
 </div>

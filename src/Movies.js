@@ -1,14 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
 import { DateTime } from 'luxon';
-import _, { get, isEmpty, find, filter, has, debounce }  from 'lodash';
-
-
-
 
 require('dotenv').config()
 
-function App() {
+function Movies() {
 
   const [data, setData] = useState({ results: [] });
 
@@ -19,9 +15,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [url, setUrl] = useState(
-  ` https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.REACT_APP_API_KEY}`
+  `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.REACT_APP_API_KEY}`
   );
-
 
 
   useEffect(() => {
@@ -47,31 +42,7 @@ function App() {
 
 
 
-
-  return (
-    <Fragment>
-
-<section className="hero is-success is-small">
-  <div className="hero-body">
-    <p className="title">
-    Welcome to MyMovies!
-    </p>
-    <p className="subtitle is-7 is-italic">
-     Your #1 movie site search!
-     <br/>
- powered by <a href='https://www.themoviedb.org/'> TMDB </a>
-    </p>
-
-    <p className="is-pulled-right">
-    Today's date: {DateTime.now().toFormat('LLLL dd yyyy')}
-
-    </p>
-
-
-  </div>
-</section>
-
-
+  return (<Fragment>
 
 <form onSubmit={event => {
         setUrl(
@@ -83,23 +54,18 @@ function App() {
 
 
   <div className="column is-6  is-half is-offset-one-quarter">
-
   <input
           type="text"
           value={query}
           onChange={event => setQuery(event.target.value)}
-          className="input is-primary mb-2"
-          placeholder="enter a keyword"
+          className="input is-primary mb-2 "
+          placeholder="enter a movie"
         />
-   <button className="button is-small is-primary" type="submit">Search</button>
+   <button className="button is-small is-rounded is-primary" type="submit">Search</button>
 
   </div>
 
-
-
-
  </form>
-
 
 
 
@@ -126,10 +92,10 @@ function App() {
  <strong> {result.name}</strong>
   </li>
 
-  <div class="columns is-mobile p-2">
-  <div class="column has-text-centered">
+  <div className="columns is-mobile p-2">
+  <div className="column has-text-centered">
   <p className="title has-text-primary ">
-   <i class="fas fa-star has-text-warning fa-1x"></i>
+   <i className="fas fa-star has-text-warning fa-1x"></i>
 {result.vote_average}({result.vote_count})
 </p>
 
@@ -146,7 +112,10 @@ function App() {
 
 <li><strong className='has-text-primary'>Release: </strong>{DateTime.fromISO(result.release_date).toFormat('LLLL dd, yyyy')}</li>
 
-<li ><strong className='has-text-primary'>First Aired: </strong>{DateTime.fromISO(result.first_air_date  ).toFormat('LLLL dd, yyyy')  } </li>
+
+
+
+
 <li>
 
 <strong className='has-text-primary'>
@@ -155,11 +124,6 @@ Language:
 </li>
 <li>
 <strong className='has-text-primary'>Popularity:</strong> {result.popularity}
-
-</li>
-<li>
-<strong className='has-text-primary'>Media Type:</strong> {result.media_type.toUpperCase()}
-
 </li>
 
 <p className='mt-3'>
@@ -191,6 +155,10 @@ Language:
       )}
 
 
+
+
+
+
 <div >
 
   <div className="content has-text-centered mt-6" style={{height:"60px"}}>
@@ -206,4 +174,4 @@ Language:
   );
 }
 
-export default App;
+export default Movies;

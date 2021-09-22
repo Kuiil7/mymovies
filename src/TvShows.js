@@ -63,7 +63,7 @@ function App() {
           type="text"
           value={query}
           onChange={event => setQuery(event.target.value)}
-          className="input is-primary mb-2"
+          className="input is-primary mb-2 is-rounded"
           placeholder="enter a TV show"
         />
    <button className="button is-small is-primary" type="submit">Search</button>

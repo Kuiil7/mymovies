@@ -82,7 +82,7 @@ function People() {
 
 
 
-  <div key={index} className="column is-7 m-1 box " >
+  <div key={index} className="column  is-12 m-1 box " >
 
 
 

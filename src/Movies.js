@@ -108,7 +108,7 @@ function Movies() {
 
 {data.results  && data.results.map((result, moviesIndex)=> (
 
-  <div key={moviesIndex} className="column is-7 box m-1  " >
+  <div key={moviesIndex} className="column is-12 box m-1  " >
 
 <ul >
 <img alt="movie poster" src={ baseImageURL + result.poster_path} onError={e => e.target.style.display = 'none'}  />
@@ -120,7 +120,7 @@ function Movies() {
 
 
 <div class="columns ">
-  <div class="column is-4">
+  <div class="column is-5">
   <CircularProgressbarWithChildren value={result.vote_average}
 
 styles={buildStyles({
@@ -165,7 +165,7 @@ styles={buildStyles({
 <li>
 
 
-<p className="title is-size-6 has-text-bold">
+<p className="title is-size-6 has-text-bold pb-2">
 <strong className='has-text-primary'>Release: </strong>{DateTime.fromISO(result.release_date).toFormat('LLLL dd, yyyy')}
 </p>
 
@@ -176,7 +176,7 @@ styles={buildStyles({
 <li>
 
 
-<p className="title is-size-6 has-text-bold">
+<p className="title is-size-6 has-text-bold pb-2">
 <strong className='has-text-primary'>
 Language:
 </strong> {result.original_language.toUpperCase()}
@@ -185,14 +185,30 @@ Language:
 
 </li>
 <li>
-<p className="title is-size-6 has-text-bold">
+<p className="title is-size-6 has-text-bold pb-3">
   <strong className='has-text-primary mb-4'>Popularity: </strong>
   {result.popularity}</p>
 </li>
-<p><strong className='has-text-primary pr-1'> Overview:</strong>{result.overview}</p>
 
 </ul>
+<div class="dropdown is-up is-hoverable">
+  <div class="dropdown-trigger">
+    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu7">
+      <span>Overview</span>
+      <span class="icon is-small">
+        <i class="fas fa-angle-up" aria-hidden="true"></i>
+      </span>
+    </button>
+  </div>
+  <div class="dropdown-menu" id="dropdown-menu7" role="menu">
+    <div class="dropdown-content">
+      <div class="dropdown-item">
+      <p><strong className='has-text-primary pr-1'> Overview:</strong>{result.overview}</p>
 
+      </div>
+    </div>
+  </div>
+</div>
 <div>
 
     </div>

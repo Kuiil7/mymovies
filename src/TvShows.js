@@ -181,15 +181,7 @@ Language:
 
 
 
-<div >
 
-  <div className="content has-text-centered mt-6" style={{height:"60px"}}>
-    <p>
-      <strong>MyMovies</strong> by <a href="https://jgamworks.com">jgamworks.com</a>.
-    </p>
-  </div>
-
-</div>
 
 
     </Fragment>

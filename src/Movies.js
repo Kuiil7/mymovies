@@ -1,8 +1,13 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
 import { DateTime } from 'luxon';
+import People from './People'
+import { CircularProgressbar, buildStyles,  CircularProgressbarWithChildren } from 'react-circular-progressbar';
 
 require('dotenv').config()
+
+
+
 
 function Movies() {
 
@@ -14,25 +19,29 @@ function Movies() {
 
   const [isLoading, setIsLoading] = useState(false);
 
+
+  const baseImageURL = 'https://image.tmdb.org/t/p/original/'
+
+  const baseMovieUrl = 'https://api.themoviedb.org/3/search/movie?'
+
+  const baseTrendingUrl = 'https://api.themoviedb.org/3/trending/movie/day?'
+
   const [url, setUrl] = useState(
-  `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.REACT_APP_API_KEY}`
+  `${baseTrendingUrl}api_key=${process.env.REACT_APP_API_KEY}`
   );
+
 
 
   useEffect(() => {
 
 
     const fetchData = async () => {
-
       setIsLoading(true);
       setIsError(false);
-
      const result = await axios(url);
-
       setData(result.data);
       setIsLoading(false);
       console.log(result.data)
-
     };
 
     fetchData();
@@ -42,11 +51,25 @@ function Movies() {
 
 
 
+
+
+
+
+
+
+
   return (<Fragment>
+
+
+
+
+
+
+
 
 <form onSubmit={event => {
         setUrl(
-           ` https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${query}
+           `${baseMovieUrl}api_key=${process.env.REACT_APP_API_KEY}&query=${query}
           }`
         );
         event.preventDefault();
@@ -74,30 +97,63 @@ function Movies() {
       {isLoading ? (
         <div>Loading Most Popular Movies...</div>
       ) : (
-        <div className="container ">
-<div className="columns is-flex-wrap-wrap is-centered p-2">
+        <div className="container scrolling-wrapper pb-4 pl-4">
 
-{data.results  && data.results.map((result, index)=> (
 
-  <div key={index} className="column is-one-quarter box m-1  " >
-      <div className='reverse-columns is-link is-small is-size-7'>
+
+
+
+
+<div className="columns p-2 is-mobile ">
+
+{data.results  && data.results.map((result, moviesIndex)=> (
+
+  <div key={moviesIndex} className="column is-one-quarter box m-1  " >
 
 <ul >
-<img alt="movie poster" src={'https://image.tmdb.org/t/p/original/' + result.poster_path} onError={e => e.target.style.display = 'none'}  />
+<img alt="movie poster" src={ baseImageURL + result.poster_path} onError={e => e.target.style.display = 'none'}  />
 
-<li className=' is-size-6 is-primary mb-2'>
+<li className=' is-size-4 is-primary mb-2 has-text-centered '>
  <strong> {result.title}</strong>
   </li>
-  <li className=' is-size-6 is-primary mb-2'>
- <strong> {result.name}</strong>
-  </li>
 
-  <div className="columns is-mobile p-2">
-  <div className="column has-text-centered">
-  <p className="title has-text-primary ">
-   <i className="fas fa-star has-text-warning fa-1x"></i>
-{result.vote_average}({result.vote_count})
-</p>
+
+
+<div class="columns">
+  <div class="column is-two-fifths">
+  <CircularProgressbarWithChildren value={result.vote_average}
+
+styles={buildStyles({
+  // Rotation of path and trail, in number of turns (0-1)
+  rotation: 0.25,
+
+  // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+  strokeLinecap: 'butt',
+
+  // Text size
+  textSize: '16px',
+
+  // How long animation takes to go from one percentage to another, in seconds
+  pathTransitionDuration: 0.5,
+
+  // Can specify path transition in more detail, or remove it entirely
+  // pathTransition: 'none',
+
+  // Colors
+  //pathColor: `rgba(62, 152, 199, ${result.vote_average/ 1})`,
+  //textColor: '#00d1b2',
+  trailColor: '#00d1b2',
+  backgroundColor: '#3e98c7',
+})}
+>
+{/* Put any JSX content in here that you'd like. It'll be vertically and horizonally centered. */}
+
+<div className="is-size-3  mb-4 has-text-centered">
+  <strong>{result.vote_average * 10}%</strong>
+
+</div>
+</CircularProgressbarWithChildren>
+
 
   </div>
 
@@ -105,45 +161,43 @@ function Movies() {
 
 
 
+<li>
 
 
+<p className="title is-size-6 has-text-bold">
+<strong className='has-text-primary'>Release: </strong>{DateTime.fromISO(result.release_date).toFormat('LLLL dd, yyyy')}
+</p>
 
-
-
-<li><strong className='has-text-primary'>Release: </strong>{DateTime.fromISO(result.release_date).toFormat('LLLL dd, yyyy')}</li>
-
-
+</li>
 
 
 
 <li>
 
+
+<p className="title is-size-6 has-text-bold">
 <strong className='has-text-primary'>
 Language:
 </strong> {result.original_language.toUpperCase()}
-</li>
-<li>
-<strong className='has-text-primary'>Popularity:</strong> {result.popularity}
-</li>
-
-<p className='mt-3'>
-<strong className='has-text-primary'>Overview:</strong> {result.overview}
 </p>
 
-<br />
 
+</li>
+<li>
+<p className="title is-size-6 has-text-bold">
+  <strong className='has-text-primary mb-4'>Popularity: </strong>
+  {result.popularity}</p>
+</li>
+<p><strong className='has-text-primary pr-1'> Overview:</strong>{result.overview}</p>
 
 </ul>
-        </div>
 
+<div>
 
+    </div>
 
 
   </div>
-
-
-
-
  ))}
 
 
@@ -156,18 +210,9 @@ Language:
 
 
 
+<People />
 
 
-
-<div >
-
-  <div className="content has-text-centered mt-6" style={{height:"60px"}}>
-    <p>
-      <strong>MyMovies</strong> by <a href="https://jgamworks.com">jgamworks.com</a>.
-    </p>
-  </div>
-
-</div>
 
 
     </Fragment>

@@ -2,6 +2,8 @@ import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
 //import { DateTime } from 'luxon';
 
+
+
 require('dotenv').config()
 
 function People() {
@@ -52,7 +54,7 @@ function People() {
       }}>
 
 
-  <div className="column is-6  is-half is-offset-one-quarter">
+  <div className="column is-6  is-half is-offset-one-quarter ">
   <input
           type="text"
           value={query}
@@ -73,51 +75,53 @@ function People() {
       {isLoading ? (
         <div>Loading People...</div>
       ) : (
-        <div className="container  ">
-<div className="columns is-flex-wrap-wrap is-centered p-2 ">
+        <div className="container scrolling-wrapper  ">
+<div className="columns  p-2 is-mobile ">
 
 {data.results  && data.results.map((result, index) => (
 
+
+
   <div key={index} className="column is-one-quarter m-1 box " >
-      <div className='reverse-columns is-link is-small is-size-7 '>
-
-
-<section>
 
 
 
+  <section>
 
 
 
 
-    <figure className="image ">
-    <img alt="movie poster" src={'https://image.tmdb.org/t/p/original/' + result.profile_path} onError={e => e.target.style.display = 'none'}  />
+
+
+
+<figure className="image ">
+<img alt="movie poster" src={'https://image.tmdb.org/t/p/original/' + result.profile_path} onError={e => e.target.style.display = 'none'}  />
 
 </figure>
 
-  <p className="title is-4 has-text-primary mb-1">{result.name}</p>
+<p className="title is-4 has-text-primary mb-1">{result.name}</p>
 
 
-        <p className="subtitle is-7 m-1">{result.known_for_department}
-        </p>
+    <p className="subtitle is-7 m-1">{result.known_for_department}
+    </p>
 
-        <i className="fas fa-star has-text-warning fa-1x  mr-1"></i>
-        {result.popularity}
-
-
+    <i className="fas fa-star has-text-warning fa-1x  mr-1"></i>
+    {result.popularity}
 
 
 
-    <div className="is-mobile has-text-primary mt-2" >
-  <p   >
-    {result.known_for[0].title }
-  </p>
-  <p >
-    {result.known_for[1].title}
-  </p>
-  <p >
-    {result.known_for[2].title}
-  </p>
+
+
+<div className="is-mobile has-text-primary mt-2" >
+<p   >
+{result.known_for[0].title }
+</p>
+<p >
+{result.known_for[1].title}
+</p>
+<p >
+{result.known_for[2].title}
+</p>
 
 </div>
 
@@ -125,40 +129,25 @@ function People() {
 
 
 
-  </section>
+</section>
 
 
 
 
-
-        </div>
   </div>
 
 
  ))}
 
-
-
 </div>
 
-        </div>
-
+</div>
       )}
 
 
 
 
 
-
-<div >
-
-  <div className="content has-text-centered mt-6" style={{height:"60px"}}>
-    <p>
-      <strong>MyMovies</strong> by <a href="https://jgamworks.com">jgamworks.com</a>.
-    </p>
-  </div>
-
-</div>
 
 
     </Fragment>

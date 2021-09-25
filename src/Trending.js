@@ -4,7 +4,9 @@ import { DateTime } from 'luxon';
 
 require('dotenv').config()
 
-function Movies() {
+
+
+function Trending () {
 
   const [data, setData] = useState({ results: [] });
 
@@ -14,9 +16,12 @@ function Movies() {
 
   const [isLoading, setIsLoading] = useState(false);
 
+
   const [url, setUrl] = useState(
-    `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.REACT_APP_API_KEY}`
-    );
+  ``
+  );
+
+
 
 
   useEffect(() => {
@@ -43,10 +48,11 @@ function Movies() {
 
 
   return (<Fragment>
+<div>test</div>
 
 <form onSubmit={event => {
         setUrl(
-           ` https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${query}
+           ` https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&query=${query}
           }`
         );
         event.preventDefault();
@@ -58,10 +64,10 @@ function Movies() {
           type="text"
           value={query}
           onChange={event => setQuery(event.target.value)}
-          className="input is-primary mb-2"
-          placeholder="enter a keyword"
+          className="input is-primary mb-2 is-rounded"
+          placeholder="enter a movie name"
         />
-   <button className="button is-small is-primary" type="submit">Search</button>
+   <button className="button is-small is-rounded is-primary" type="submit">Search</button>
 
   </div>
 
@@ -72,20 +78,52 @@ function Movies() {
       {isError && <div>Something went wrong ...</div>}
 
       {isLoading ? (
-        <div>Loading Most Popular Movies...</div>
+        <div>Loading Trending...</div>
       ) : (
         <div className="container ">
 <div className="columns is-flex-wrap-wrap is-centered p-2">
 
-{data.results  && data.results.map(result => (
+{data.results  && data.results.map((result, index)=> (
 
-  <div key={result.id} className="column is-one-quarter box m-1  " >
-      <div className='reverse-columns is-link is-small is-size-7'>
+  <div key={index} className="column is-one-quarter box m-1  " >
+
+
+
+<div className="scrolling-wrapper">
+  <div className="card"><h2>Card</h2></div>
+  <div className="card"><h2>Card</h2></div>
+  <div className="card"><h2>Card</h2></div>
+  <div className="card"><h2>Card</h2></div>
+  <div className="card"><h2>Card</h2></div>
+  <div className="card"><h2>Card</h2></div>
+  <div className="card"><h2>Card</h2></div>
+  <div className="card"><h2>Card</h2></div>
+  <div className="card"><h2>Card</h2></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div className='reverse-columns is-link is-small is-size-7 '>
 
 <ul >
 <img alt="movie poster" src={'https://image.tmdb.org/t/p/original/' + result.poster_path} onError={e => e.target.style.display = 'none'}  />
 
-<li className=' is-size-6 is-primary mb-2'>
+<li className=' is-size-4 is-primary mb-2 has-text-centered '>
  <strong> {result.title}</strong>
   </li>
   <li className=' is-size-6 is-primary mb-2'>
@@ -120,15 +158,10 @@ function Movies() {
 
 <strong className='has-text-primary'>
 Language:
-</strong> {result.original_language.toUpperCase()}
+</strong> {result.original_language}
 </li>
 <li>
 <strong className='has-text-primary'>Popularity:</strong> {result.popularity}
-
-</li>
-<li>
-<strong className='has-text-primary'>Media Type:</strong> {result.media_type.toUpperCase()}
-
 </li>
 
 <p className='mt-3'>
@@ -174,9 +207,8 @@ Language:
 
 </div>
 
-
     </Fragment>
   );
 }
 
-export default Movies;
+export default Trending;

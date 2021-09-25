@@ -10,8 +10,25 @@ body {
 
 }
 
-.block:not(:last-child) {
-    margin-bottom: 1.5rem;
+.scrolling-wrapper {
+    overflow-x: scroll;
+
+
   }
 
-  
+
+
+
+
+  .CircularProgressbar-path {
+    stroke: red;
+  }
+  .CircularProgressbar-trail {
+    stroke: gray;
+  }
+  .CircularProgressbar-text {
+    fill: yellow;
+  }
+  .CircularProgressbar-background {
+    fill: green;
+  }

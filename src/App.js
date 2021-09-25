@@ -4,17 +4,17 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Movies from './Movies';
 import TvShows from './TvShows';
 import People from './People';
-
+import Trending from './Trending'
 import Hero from './Hero';
+import Overview from './Overview';
 
 function App() {
   return (
     <div className="wrapper">
          <BrowserRouter>
 
-       <Hero />
 
-
+<Hero />
 
         <Switch>
           <Route exact path="/">
@@ -28,6 +28,13 @@ function App() {
           </Route>
           <Route  path="/people">
             <People/>
+          </Route>
+          <Route  path="/trending">
+            <Trending/>
+          </Route>
+
+         <Route  path="/overview">
+            <Overview/>
           </Route>
         </Switch>
       </BrowserRouter>

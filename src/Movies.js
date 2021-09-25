@@ -97,30 +97,30 @@ function Movies() {
       {isLoading ? (
         <div>Loading Most Popular Movies...</div>
       ) : (
-        <div className="container scrolling-wrapper pb-4 pl-4">
+        <div className="container scrolling-wrapper pb-4 pl-4 ">
 
 
 
 
 
 
-<div className="columns p-2 is-mobile ">
+<div className="columns p-2 is-mobile  ">
 
 {data.results  && data.results.map((result, moviesIndex)=> (
 
-  <div key={moviesIndex} className="column is-one-quarter box m-1  " >
+  <div key={moviesIndex} className="column is-7 box m-1  " >
 
 <ul >
 <img alt="movie poster" src={ baseImageURL + result.poster_path} onError={e => e.target.style.display = 'none'}  />
 
-<li className=' is-size-4 is-primary mb-2 has-text-centered '>
+<li className=' is-size-4 is-primary mb-2  '>
  <strong> {result.title}</strong>
   </li>
 
 
 
-<div class="columns">
-  <div class="column is-two-fifths">
+<div class="columns ">
+  <div class="column is-4">
   <CircularProgressbarWithChildren value={result.vote_average}
 
 styles={buildStyles({
@@ -146,9 +146,10 @@ styles={buildStyles({
   backgroundColor: '#3e98c7',
 })}
 >
-{/* Put any JSX content in here that you'd like. It'll be vertically and horizonally centered. */}
+{/* Put any JSX content in here that you'd like. It'll be vertically and horizonally centered. */
+}
 
-<div className="is-size-3  mb-4 has-text-centered">
+<div className="is-size-4 mb-5 ">
   <strong>{result.vote_average * 10}%</strong>
 
 </div>

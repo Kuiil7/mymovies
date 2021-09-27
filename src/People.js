@@ -78,11 +78,11 @@ function People() {
         <div className="container scrolling-wrapper  ">
 <div className="columns   p-2 is-mobile ">
 
-{data.results  && data.results.map((result, index) => (
+{data.results  && data.results.map((result, peopleIndex) => (
 
 
 
-  <div key={index} className="column  is-12 m-1 box " >
+  <div key={peopleIndex} className="column  is-12 m-1 box " >
 
 
 

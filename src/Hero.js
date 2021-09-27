@@ -4,9 +4,9 @@ import {  Link } from 'react-router-dom';
 
 
 const Hero= () => {
-  return (<div >
-<section className="hero has-background-primary-dark is-small ">
-  <div className="hero-body">
+  return (  <div >
+<section className="hero has-background-primary-dark is-small " >
+  <div className="hero-body" >
     <p className="title has-text-white">
     Welcome to MyMovies!
     </p>
@@ -36,6 +36,8 @@ powered by <a href='https://www.themoviedb.org/' className="has-text-white"> TMD
      < li>  <Link to="/people" >People</Link>
     </li>
     < li>  <Link to="/trending" >Trending</Link>
+    </li>
+    < li>  <Link to="/overview" >Overview</Link>
     </li>
   </ul>
 </div>

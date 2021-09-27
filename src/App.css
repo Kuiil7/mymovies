@@ -12,7 +12,7 @@ body {
 
 .scrolling-wrapper {
     overflow-x: scroll;
-    
+
 
   }
 
@@ -33,3 +33,5 @@ body {
   .CircularProgressbar-background {
     fill: green;
   }
+
+

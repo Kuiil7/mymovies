@@ -7,7 +7,7 @@ require('dotenv').config()
 
 function App() {
 
-  const [data, setData] = useState({ results: [] });
+  const [data, setData] = useState({tvshows: [] });
 
   const [isError, setIsError] = useState(false);
 
@@ -49,9 +49,12 @@ function App() {
 
   return (
     <Fragment>
+
+
+
 <form onSubmit={event => {
         setUrl(
-           `https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_API_KEY}&query=${query}`
+           `https://api.themoviedb.org/3/search?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1&include_adult=false&query=${query}`
         );
         event.preventDefault();
       }}>
@@ -63,7 +66,7 @@ function App() {
           type="text"
           value={query}
           onChange={event => setQuery(event.target.value)}
-          className="input is-primary mb-2 is-rounded"
+          className="input is-primary mb-2"
           placeholder="enter a TV show"
         />
    <button className="button is-small is-primary" type="submit">Search</button>
@@ -87,13 +90,13 @@ function App() {
 
 <div className="columns is-flex-wrap-wrap is-centered p-2">
 
-{data.results  && data.results.map(result => (
+{data.results  && data.results.map((result, tvShowIndex) => (
 
-  <div key={result} className="column is-one-quarter box m-1  " >
+  <div key={tvShowIndex} className="column is-one-quarter box m-1  " >
       <div className='reverse-columns is-link is-small is-size-7'>
 
 <ul >
-<img alt="tv show poster" src={'https://image.tmdb.org/t/p/original/' + result.poster_path} onError={e => e.target.style.display = 'none'}  />
+<img alt="movie poster" src={'https://image.tmdb.org/t/p/original/' + result.poster_path} onError={e => e.target.style.display = 'none'}  />
 
 <li className=' is-size-6 is-primary mb-2'>
  <strong> {result.title}</strong>
@@ -120,7 +123,7 @@ function App() {
 
 
 
-<li><strong className='has-text-primary'>First Aired: </strong>{DateTime.fromISO(result.first_air_date).toFormat('LLLL dd, yyyy')}</li>
+<li><strong className='has-text-primary'>Release: </strong>{DateTime.fromISO(result.release_date).toFormat('LLLL dd, yyyy')}</li>
 
 
 
@@ -137,6 +140,7 @@ Language:
 
 </li>
 <li>
+<strong className='has-text-primary'>Media Type:</strong> {result.media_type.toUpperCase()}
 
 </li>
 
@@ -178,10 +182,18 @@ Language:
 
         </div>
 
+      )}
 
 
+<div >
 
+  <div className="content has-text-centered mt-6" style={{height:"60px"}}>
+    <p>
+      <strong>MyMovies</strong> by <a href="https://jgamworks.com">jgamworks.com</a>.
+    </p>
+  </div>
 
+</div>
 
 
     </Fragment>

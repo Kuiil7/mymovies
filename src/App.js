@@ -74,7 +74,9 @@ function App() {
 
         <Switch>
 
-
+        <Route  exact path="/">
+            <Movies />
+          </Route>
           <Route  exact path="/movies">
             <Movies />
           </Route>

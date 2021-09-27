@@ -125,7 +125,7 @@ function Movies() {
 <div class="columns ">
 
 
-  <div class="column   ">
+  <div class="column  has-text-right ">
   <ProgCircle
 vote_average={result.vote_average}
 original_language={result.original_language.toUpperCase()}

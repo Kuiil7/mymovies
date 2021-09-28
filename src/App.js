@@ -1,7 +1,7 @@
 import './App.css';
 import { BrowserRouter, Route, Switch, Router } from 'react-router-dom';
 import Movies from './Movies';
-import TvShows from './TvShows';
+import TVShows from './TVShows';
 import People from './People';
 import Trending from './Trending'
 import Hero from './Hero';
@@ -10,6 +10,7 @@ import {  Link } from 'react-router-dom';
 import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
 import Summary from './Summary';
+import { result } from 'lodash';
 
 function App() {
 
@@ -50,15 +51,6 @@ function App() {
 
 
 
-  const taskList = data.results.map(result => (
-    <Overview
-      id={result.id}
-     overview={result.overview}
-      title={result.title}
-      key={result.id}
-
-    />
-  ));
 
 
   return (
@@ -81,7 +73,7 @@ function App() {
             <Movies />
           </Route>
           <Route  path="/tvshows">
-            <TvShows />
+            <TVShows />
           </Route>
           <Route  path="/people">
             <People/>
@@ -90,12 +82,30 @@ function App() {
             <Trending/>
           </Route>
 
-          <Route  path="/summary">
-            <Summary />
-          </Route>
+{
+
+data.results.map(result => (
 
 
+    <Route  exact path="/overview">
 
+    <Overview
+      id={result.id}
+     overview={result.overview}
+      title={result.title}
+      key={result.id}
+      vote_average={result.vote_average}
+      original_language={result.original_language.toUpperCase()}
+      popularity={result.popularity}
+      release_date={result.release_date}
+      baseImageURL={baseImageURL}
+      poster_path={result.poster_path}
+      backdrop_path={result.backdrop_path}
+
+    />
+
+</Route>
+  ))}
         </Switch>
       </BrowserRouter>
     </div>

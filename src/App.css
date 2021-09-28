@@ -17,8 +17,9 @@ body {
   }
 
 
-
-
+  .opacity1 {
+    opacity: 1;
+  }
 
 
   .CircularProgressbar-path {

@@ -82,7 +82,7 @@ function People() {
 
 
 
-  <div key={peopleIndex} className="column  is-12 m-1 box " >
+  <div key={peopleIndex} className="column  is-6 m-1 box " >
 
 
 

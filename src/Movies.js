@@ -28,14 +28,14 @@ function Movies() {
 
   const baseImageURL = 'https://image.tmdb.org/t/p/original/'
 
-  const baseMovieUrl = 'https://api.themoviedb.org/3/search/movie?'
+  const baseSearchURL = 'https://api.themoviedb.org/3/search/movie?'
 
-  const baseTrendingUrl = 'https://api.themoviedb.org/3/trending/movie/day?'
+  const baseMovieURL = `https://api.themoviedb.org/3/movie/popular?`
 
   const [show, toggleShow] = useState(false);
 
   const [url, setUrl] = useState(
-  `${baseTrendingUrl}api_key=${process.env.REACT_APP_API_KEY}`
+  `${baseMovieURL}api_key=${process.env.REACT_APP_API_KEY}`
   );
 
 
@@ -63,7 +63,7 @@ function Movies() {
 
 <form onSubmit={event => {
         setUrl(
-           `${baseMovieUrl}api_key=${process.env.REACT_APP_API_KEY}&query=${query}
+           `${baseSearchURL}api_key=${process.env.REACT_APP_API_KEY}&query=${query}
           }`
         );
         event.preventDefault();
@@ -109,23 +109,29 @@ function Movies() {
 
 {data.results  && data.results.map((result, moviesIndex)=> (
 
-  <div key={moviesIndex} className="column is-6 box m-1  " >
+  <div key={moviesIndex} className="column is-6-mobile box m-1  " >
 
-<Link to={{
-  pathname: '/overview',
-  state: { result: data.results}
-}}>
+<Link to='/overview'>
 
 
-<img alt="movie poster" src={ baseImageURL + result.poster_path} onError={e => e.target.style.display = 'none'}  />
+<img alt="movie poster" className="card" src={ baseImageURL + result.poster_path} onError={e => e.target.style.display = 'none'}  />
 
 
   </Link>
+<div>
+<p className=' title is-size-5 is-primary  has-text-primary m-0 '>
+ {result.title}
+  </p>
 
+  <p className=' title is-size-6 is-primary  '>
+ Release: {DateTime.fromISO(result.release_date).toFormat('LL/d/y')}
+  </p>
+
+  </div>
 <div class="columns ">
 
 
-  <div class="column  has-text-right ">
+  <div class="column   mt-5">
   <ProgCircle
 vote_average={result.vote_average}
 original_language={result.original_language.toUpperCase()}
@@ -135,41 +141,18 @@ overview={result.overview}
 baseImageURL={baseImageURL}
 poster_path={result.poster_path}
 backdrop_path={result.backdrop_path}
-
  />
-
-  </div>
-  <div class="column has-text-centered is-8
-">
-  <p className=' title is-size-4 is-primary mb-2 has-text-primary '>
- {result.title}
+<p className="has-text-centered">
+<Link  to="/overview" >Overview</Link>
   </p>
-  <p className=' title is-size-4 is-primary mb-2  '>
-  {DateTime.fromISO(result.release_date).toFormat('LL/d/y')}
-  </p>
-
 
   </div>
 
-</div>
-<div   className="has-text-centered" >
 
 
-      <button
-      className="button is-primary"
-        onClick={() => toggleShow(!show)}
-      >
-        Overview {show}
-      </button>
-      {show && <div>
-<div   className="
-     has-text-left mt-2" >
-     <Overview
-      overview={result.overview}
-      />
+
 </div>
-        </div>}
-    </div>
+
 
 
 

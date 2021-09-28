@@ -1,13 +1,24 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
 import { DateTime } from 'luxon';
+import People from './People'
+import ProgCircle from './ProgCircle'
+import { PinDropSharp } from '@material-ui/icons';
+import {  Link } from 'react-router-dom';
+
+import Overview from './Overview'
+
 
 
 require('dotenv').config()
 
-function App() {
 
-  const [data, setData] = useState({tvshows: [] });
+
+
+function TVShows() {
+
+
+  const [data, setData] = useState({ results: [] });
 
   const [isError, setIsError] = useState(false);
 
@@ -15,157 +26,159 @@ function App() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [onLoadUrl, setUrl] = useState(
-    `https://api.themoviedb.org/3/trending/tv/day?api_key=${process.env.REACT_APP_API_KEY}`
-    );
+  const baseImageURL = 'https://image.tmdb.org/t/p/original/'
+
+  const baseMovieUrl = 'https://api.themoviedb.org/3/trending/all/day?'
+
+  const baseTrendingUrl = 'https://api.themoviedb.org/3/trending/tv/day?'
+
+  const [show, toggleShow] = useState(false);
+
+  const [url, setUrl] = useState(
+  `${baseTrendingUrl}api_key=${process.env.REACT_APP_API_KEY}`
+  );
 
 
 
   useEffect(() => {
 
-
     const fetchData = async () => {
-
       setIsLoading(true);
       setIsError(false);
-
-     const resultPeoplAPI = await axios(onLoadUrl);
-
-      setData(resultPeoplAPI.data);
+     const result = await axios(url);
+      setData(result.data);
       setIsLoading(false);
-      console.log(resultPeoplAPI.data)
-
+      console.log(result.data)
     };
 
     fetchData();
 
-  }, [onLoadUrl]);
+  }, [url]);
 
 
 
 
 
-
-
-  return (
-    <Fragment>
-
-
+  return (<Fragment>
 
 <form onSubmit={event => {
         setUrl(
-           `https://api.themoviedb.org/3/search?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1&include_adult=false&query=${query}`
+           `${baseMovieUrl}api_key=${process.env.REACT_APP_API_KEY}&query=${query}
+          }`
         );
         event.preventDefault();
       }}>
 
 
   <div className="column is-6  is-half is-offset-one-quarter">
-
   <input
           type="text"
           value={query}
           onChange={event => setQuery(event.target.value)}
-          className="input is-primary mb-2"
-          placeholder="enter a TV show"
+          className="input is-primary mb-2 is-rounded"
+          placeholder="enter a movie name"
         />
-   <button className="button is-small is-primary" type="submit">Search</button>
+   <button className="button is-small is-rounded is-primary" type="submit">Search</button>
 
   </div>
 
-
-
-
  </form>
-
 
 
 
       {isError && <div>Something went wrong ...</div>}
 
       {isLoading ? (
-        <div>Loading Most Popular TV Shows...</div>
+        <div>Loading Most Popular Movies...</div>
       ) : (
-        <div className="container ">
 
-<div className="columns is-flex-wrap-wrap is-centered p-2">
 
-{data.results  && data.results.map((result, tvShowIndex) => (
 
-  <div key={tvShowIndex} className="column is-one-quarter box m-1  " >
-      <div className='reverse-columns is-link is-small is-size-7'>
 
-<ul >
-<img alt="movie poster" src={'https://image.tmdb.org/t/p/original/' + result.poster_path} onError={e => e.target.style.display = 'none'}  />
+        <div className="container  scrolling-wrapper pb-4 pl-4 ">
 
-<li className=' is-size-6 is-primary mb-2'>
- <strong> {result.title}</strong>
-  </li>
-  <li className=' is-size-6 is-primary mb-2'>
- <strong> {result.name}</strong>
-  </li>
 
-  <div className="columns is-mobile p-2">
-  <div className="column has-text-centered">
-  <p className="title has-text-primary ">
-   <i className="fas fa-star has-text-warning fa-1x"></i>
-{result.vote_average}({result.vote_count})
-</p>
+<div className="columns p-2 is-mobile  ">
+
+
+
+
+
+
+
+
+{data.results  && data.results.map((result, moviesIndex)=> (
+
+  <div key={moviesIndex} className="column is-6-mobile box m-1  " >
+
+<Link to={{
+  pathname: '/overview',
+  state: { result: data.results}
+}}>
+
+
+<img alt="movie poster" src={ baseImageURL + result.poster_path} onError={e => e.target.style.display = 'none'}  />
+
+
+  </Link>
+
+<div class="columns ">
+
+
+  <div class="column  has-text-right mt-5">
+  <ProgCircle
+vote_average={result.vote_average}
+original_language={result.original_language.toUpperCase()}
+popularity={result.popularity}
+release_date={result.release_date}
+overview={result.overview}
+baseImageURL={baseImageURL}
+poster_path={result.poster_path}
+backdrop_path={result.backdrop_path}
+ />
+
+  </div>
+  <div class="column has-text-centered is-7
+">
+  <p className=' title is-size-4 is-primary m-7 has-text-primary '>
+ {result.title}
+  </p>
+  <p className=' title is-size-4 is-primary m-7  '>
+  {DateTime.fromISO(result.release_date).toFormat('LL/d/y')}
+  </p>
+
 
   </div>
 
 </div>
+<div   className="has-text-centered" >
 
+<Link to="/overview" >Overview</Link>
 
+      <button
+      className="button is-primary"
+        onClick={() => toggleShow(!show)}
+      >
+        Overview {show}
+      </button>
+      {show && <div>
+<div   className="
+     has-text-left mt-2" >
+     <Overview
+      overview={result.overview}
+      />
 
-
-
-
-
-
-<li><strong className='has-text-primary'>Release: </strong>{DateTime.fromISO(result.release_date).toFormat('LLLL dd, yyyy')}</li>
-
-
-
-
-
-<li>
-
-<strong className='has-text-primary'>
-Language:
-</strong> {result.original_language.toUpperCase()}
-</li>
-<li>
-<strong className='has-text-primary'>Popularity:</strong> {result.popularity}
-
-</li>
-<li>
-<strong className='has-text-primary'>Media Type:</strong> {result.media_type.toUpperCase()}
-
-</li>
-
-<p className='mt-3'>
-<strong className='has-text-primary'>Overview:</strong> {result.overview}
-</p>
-
-<br />
-
-
-</ul>
-        </div>
+</div>
+        </div>}
+    </div>
 
 
 
 
   </div>
-
-
-
-
  ))}
 
 
-
 </div>
 
         </div>
@@ -174,30 +187,13 @@ Language:
 
 
 
+<People />
 
 
-
-<div >
-
-
-        </div>
-
-      )}
-
-
-<div >
-
-  <div className="content has-text-centered mt-6" style={{height:"60px"}}>
-    <p>
-      <strong>MyMovies</strong> by <a href="https://jgamworks.com">jgamworks.com</a>.
-    </p>
-  </div>
-
-</div>
 
 
     </Fragment>
   );
 }
 
-export default App;
+export default TVShows;

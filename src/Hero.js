@@ -37,8 +37,7 @@ powered by <a href='https://www.themoviedb.org/' className="has-text-white"> TMD
     </li>
     < li>  <Link to="/trending" >Trending</Link>
     </li>
-    < li>  <Link to="/overview" >Overview</Link>
-    </li>
+   
   </ul>
 </div>
 </section>

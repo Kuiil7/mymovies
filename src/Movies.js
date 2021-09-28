@@ -95,21 +95,16 @@ function Movies() {
 
 
 
-        <div className="container  scrolling-wrapper pb-4 pl-4 ">
+        <div className="container scrolling-wrapper pb-4 pl-4 ">
 
 
 <div className="columns p-2 is-mobile  ">
 
-
-
-
-
-
-
-
 {data.results  && data.results.map((result, moviesIndex)=> (
 
-  <div key={moviesIndex} className="column is-6-mobile box m-1  " >
+
+
+  <div key={moviesIndex} className="column is-2  box m-1  " >
 
 <Link to='/overview'>
 
@@ -119,19 +114,14 @@ function Movies() {
 
   </Link>
 <div>
-<p className=' title is-size-5 is-primary  has-text-primary m-0 '>
+<p className=' title is-size-6 is-primary  has-text-primary m-0 '>
  {result.title}
   </p>
 
-  <p className=' title is-size-6 is-primary  '>
+  <p className=' title is-size-6 is-primary mt-2 '>
  Release: {DateTime.fromISO(result.release_date).toFormat('LL/d/y')}
   </p>
 
-  </div>
-<div class="columns ">
-
-
-  <div class="column   mt-5">
   <ProgCircle
 vote_average={result.vote_average}
 original_language={result.original_language.toUpperCase()}
@@ -142,16 +132,19 @@ baseImageURL={baseImageURL}
 poster_path={result.poster_path}
 backdrop_path={result.backdrop_path}
  />
-<p className="has-text-centered">
-<Link  to="/overview" >Overview</Link>
-  </p>
+
+
+ <div className="has-text-centered ">
+ <Link  to="/overview" >Overview</Link>
+
+ </div>
 
   </div>
 
 
 
 
-</div>
+
 
 
 

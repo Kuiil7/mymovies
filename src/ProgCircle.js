@@ -5,7 +5,8 @@ import {  buildStyles,  CircularProgressbarWithChildren } from 'react-circular-p
 
 
 const ProgCircle= (props) => {
-  return (<div className="has-text-centered column " >
+  return (<div className="column is-half
+  is-offset-one-quarter" >
 
 
 

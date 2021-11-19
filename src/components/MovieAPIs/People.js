@@ -32,12 +32,16 @@ function People () {
 
 
   return (<>
-
-<form onSubmit={event => {setUrl(`https://api.themoviedb.org/3/search/person?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&language=en-US&page=1&include_adult=false&query=${query}`);
+  <div className="columns mt-4">
+  <div className="column is-3">
+  <p className="title mt-5">People</p>
+  </div>
+  <div className="column is-8">
+  <form onSubmit={event => {setUrl(`https://api.themoviedb.org/3/search/person?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&language=en-US&page=1&include_adult=false&query=${query}`);
         event.preventDefault();
       }}>
 
-  <div className="column is-6  is-half is-offset-one-quarter ">
+  <div className="column is-8 mt-2">
   <input
           type="text"
           value={query}
@@ -49,11 +53,18 @@ function People () {
   </div>
  </form>
 
+  </div>
+
+</div>
+
+
 {isError && <div>Something went wrong ...</div>}
 {isLoading ? (
 <div>Loading People...</div>
 ) : (
 <div className="container scrolling-wrapper  ">
+<p className="title is-4">Trending people this week</p>
+
 <div className="columns   p-2 is-mobile ">
 {data.results  && data.results.map((result, peopleIndex) => (
 <div key={peopleIndex} className="column  is-6-mobile is-2-desktop m-1 box " >

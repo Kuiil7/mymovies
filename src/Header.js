@@ -8,11 +8,10 @@ function Header() {
 
   return (
 
-    <div className="container">
-    <div className="Header">
-   <nav className="navbar" role="navigation" aria-label="main navigation">
-  <div className="navbar-brand">
-
+<div className="container">
+<div className="Header">
+<nav className="navbar" role="navigation" aria-label="main navigation">
+<div className="navbar-brand">
   <NavLink className="navbar-item" to="/"> MyMovies</NavLink>
     <div
          onClick={() => {
@@ -36,9 +35,7 @@ function Header() {
       <div className='navbar-item '>
  <NavLink className="navbar-item" to="/movies">Movies</NavLink>
  <NavLink className="navbar-item" to="/tvshows">TV Shows</NavLink>
- <NavLink className="navbar-item" to="/trending">Trending</NavLink>
  <NavLink className="navbar-item" to="/people">People</NavLink>
- <NavLink className="navbar-item" to="/overview">Overview</NavLink>
 
           </div>
         </div>

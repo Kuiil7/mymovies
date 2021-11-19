@@ -5,7 +5,6 @@ import { DateTime } from 'luxon';
 //import ProgCircle from './components/ProgCircle';
 import {  Link } from 'react-router-dom';
 
-
 require('dotenv').config()
 
 function TVShows() {
@@ -15,11 +14,13 @@ function TVShows() {
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const baseImageURL = 'https://image.tmdb.org/t/p/original/'
-  const baseMovieUrl = 'https://api.themoviedb.org/3/trending/all/day?'
-  const baseTrendingUrl = 'https://api.themoviedb.org/3/trending/tv/day?'
-  const [url, setUrl] = useState(`${baseTrendingUrl}api_key=${process.env.REACT_APP_MOVIE_API_KEY}`);
+  const baseAiringTodayURL = 'https://api.themoviedb.org/3/tv/airing_today?'
+  const baseTVSearchURL = 'https://api.themoviedb.org/3/search/tv?'
+  const [url, setUrl] = useState(`${baseAiringTodayURL}api_key=${process.env.REACT_APP_MOVIE_API_KEY}`);
 
-
+  const [visible, setVisible] = useState(false);
+  const [show, setShow] = useState(true) 
+ 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -35,31 +36,43 @@ function TVShows() {
 
   return (
   <>
-<form onSubmit={event => {
-        setUrl(`${baseMovieUrl}api_key=${process.env.REACT_APP_MOVIE_API_KEY}&query=${query}}`);
+  <div className="columns mt-4">
+  <div className="column is-3">
+  <p className="title p-5">TV Shows</p>
+
+  </div>
+  <div className="column is-8 mt-2">
+  <form onSubmit={event => {
+        setUrl(`${baseTVSearchURL}api_key=${process.env.REACT_APP_MOVIE_API_KEY}&query=${query}}`);
         event.preventDefault();
       }}>
 
 
-  <div className="column is-6  is-half is-offset-one-quarter">
+  <div className="column is-8 ">
   <input
           type="text"
           value={query}
           onChange={event => setQuery(event.target.value)}
           className="input is-primary mb-2 is-rounded"
-          placeholder="enter a movie name"
+          placeholder="enter a TV Show name"
+          onClick={() => setShow(!show)}
+
         />
    <button className="button is-small is-rounded is-primary" type="submit">Search</button>
 
   </div>
 
  </form>
+  </div>
+</div>
+
+
 
 {isError && <div>Something went wrong ...</div>}
 
 {isLoading ? (<div>Loading Most Popular Movies...</div>) :
 (<div className="container  scrolling-wrapper pb-4 pl-4 ">
-  TV SHOWS
+<p className="title is-4">TV Shows airing today</p>
 <div className="columns p-2 is-mobile  ">
 {data.results  && data.results.map((result, tvshowsIndex)=> (
 <div key={tvshowsIndex} className="column is-6-mobile is-2-desktop box m-1  " >
@@ -71,19 +84,19 @@ function TVShows() {
 
 
 
-
+<div>
+    <button onClick={() => setVisible(!visible)}>
+        {visible ? 'Hide' : 'Show'}
+      </button>
+      {visible && <div>{result.overview }</div>}
+    </div>
 
 
   </div>
  ))}
-
-
 </div>
-
-        </div>
-
-      )}
-
+ </div>
+)}
 
 
 

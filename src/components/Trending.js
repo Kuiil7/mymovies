@@ -1,12 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
 import { DateTime } from 'luxon';
-import People from './People'
 import ProgCircle from './ProgCircle'
-import { PinDropSharp } from '@material-ui/icons';
 import {  Link } from 'react-router-dom';
 
-import Overview from './Overview'
+import Overview from './Overview_old'
 
 
 
@@ -15,7 +13,7 @@ require('dotenv').config()
 
 
 
-function Movies() {
+function Trending() {
 
 
   const [data, setData] = useState({ results: [] });
@@ -28,14 +26,14 @@ function Movies() {
 
   const baseImageURL = 'https://image.tmdb.org/t/p/original/'
 
-  const baseSearchURL = 'https://api.themoviedb.org/3/search/movie?'
+  const baseMovieUrl = 'https://api.themoviedb.org/3/trending/all/day?'
 
-  const baseMovieURL = `https://api.themoviedb.org/3/movie/popular?`
+  const baseTrendingUrl = 'https://api.themoviedb.org/3/trending/movie/day?'
 
   const [show, toggleShow] = useState(false);
 
   const [url, setUrl] = useState(
-  `${baseMovieURL}api_key=${process.env.REACT_APP_API_KEY}`
+  `${baseTrendingUrl}api_key=${process.env.REACT_APP_MOVIE_API_KEY}`
   );
 
 
@@ -63,7 +61,7 @@ function Movies() {
 
 <form onSubmit={event => {
         setUrl(
-           `${baseSearchURL}api_key=${process.env.REACT_APP_API_KEY}&query=${query}
+           `${baseMovieUrl}api_key=${process.env.REACT_APP_MOVIE_API_KEY}&query=${query}
           }`
         );
         event.preventDefault();
@@ -95,33 +93,43 @@ function Movies() {
 
 
 
-        <div className="container scrolling-wrapper pb-4 pl-4 ">
+        <div className="container  scrolling-wrapper pb-4 pl-4 ">
 
 
 <div className="columns p-2 is-mobile  ">
 
-{data.results  && data.results.map((result, moviesIndex)=> (
 
 
 
-  <div key={moviesIndex} className="column is-2  box m-1  " >
-
-<Link to='/overview'>
 
 
-<img alt="movie poster" className="card" src={ baseImageURL + result.poster_path} onError={e => e.target.style.display = 'none'}  />
+
+
+{data.results  && data.results.map((result, trendingIndex)=> (
+
+  <div key={trendingIndex} className="column is-6-mobile box m-1  " >
+
+<Link to={{
+  pathname: '/overview',
+  state: { result: data.results}
+}}>
+
+
+<img alt="movie poster" src={ baseImageURL + result.poster_path} onError={e => e.target.style.display = 'none'}  />
+<p className=' title is-size-4 is-primary m-7 has-text-primary '>
+ {result.title}
+  </p>
+  <p className=' title is-size-4 is-primary m-7  '>
+  {DateTime.fromISO(result.release_date).toFormat('LL/d/y')}
+  </p>
 
 
   </Link>
-<div>
-<p className=' title is-size-6 is-primary  has-text-primary m-0 '>
- {result.title}
-  </p>
 
-  <p className=' title is-size-6 is-primary mt-2 '>
- Release: {DateTime.fromISO(result.release_date).toFormat('LL/d/y')}
-  </p>
+<div class="columns ">
 
+
+  <div class="column  has-text-right mt-5">
   <ProgCircle
 vote_average={result.vote_average}
 original_language={result.original_language.toUpperCase()}
@@ -133,19 +141,29 @@ poster_path={result.poster_path}
 backdrop_path={result.backdrop_path}
  />
 
-
- <div className="has-text-centered ">
- <Link  to="/overview" >Overview</Link>
-
- </div>
-
   </div>
 
+</div>
+<div   className="has-text-centered" >
 
+<Link to="/overview" >Overview</Link>
 
+      <button
+      className="button is-primary"
+        onClick={() => toggleShow(!show)}
+      >
+        Overview {show}
+      </button>
+      {show && <div>
+<div   className="
+     has-text-left mt-2" >
+     <Overview
+      overview={result.overview}
+      />
 
-
-
+</div>
+        </div>}
+    </div>
 
 
 
@@ -162,7 +180,7 @@ backdrop_path={result.backdrop_path}
 
 
 
-<People />
+
 
 
 
@@ -171,4 +189,4 @@ backdrop_path={result.backdrop_path}
   );
 }
 
-export default Movies;
+export default Trending;

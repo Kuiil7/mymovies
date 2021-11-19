@@ -1,24 +1,22 @@
-import './App.css';
-import { BrowserRouter, Route, Switch, Router } from 'react-router-dom';
-import Movies from './Movies';
-import TVShows from './TVShows';
-import People from './People';
-import Trending from './Trending'
-import Hero from './Hero';
-import Overview from './Overview';
-import {  Link } from 'react-router-dom';
-import React, { Fragment, useState, useEffect } from 'react';
+import React, {useState, useEffect } from 'react';
+import { Routes, Route} from "react-router-dom";
+import Movies from "./components/movieapis/Movies";
+import Trending from "./components/movieapis/Trending";
+import People from "./components/movieapis/People";
+import TVShows from "./components/movieapis/TVShows";
+//import Main from "./components/Main";
+import Header from "./Header";
+//import TestOverview from "./components/TestOverview";
 import axios from 'axios';
-import Summary from './Summary';
-import { result } from 'lodash';
+import Main from "./components/Main";
+import Overview from "./components/movieapis/Overview";
+
+require('dotenv').config()
 
 function App() {
-
   const [data, setData] = useState({ results: [] });
 
   const [isError, setIsError] = useState(false);
-
-  const [query, setQuery] = useState('');
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -28,9 +26,7 @@ function App() {
 
   const baseTrendingUrl = 'https://api.themoviedb.org/3/trending/movie/day?'
 
-  const [url, setUrl] = useState(
-  `${baseTrendingUrl}api_key=${process.env.REACT_APP_API_KEY}`
-  );
+  const url =`${baseTrendingUrl}api_key=${process.env.REACT_APP_MOVIE_API_KEY}`
 
 
 
@@ -54,62 +50,49 @@ function App() {
 
 
   return (
-    <div >
-         <BrowserRouter>
-
-
-<Hero />
-
-
-
-
-
-        <Switch>
-
-        <Route  exact path="/">
-            <Movies />
-          </Route>
-          <Route  exact path="/movies">
-            <Movies />
-          </Route>
-          <Route  path="/tvshows">
-            <TVShows />
-          </Route>
-          <Route  path="/people">
-            <People/>
-          </Route>
-          <Route  path="/trending">
-            <Trending/>
-          </Route>
-
+    <div className="container">
+<Header />
+{isError && <div>Something went wrong ...</div>}
 {
 
-data.results.map(result => (
+data.results.map((result, movieIndex) => (
 
 
-    <Route  exact path="/overview">
+      <Routes>
+      <Route path="/" element={<Main />}  />
+        <Route path="movies" element={<Movies
+        vote_average={result.vote_average}
+        original_language={result.original_language.toUpperCase()}
+        popularity={result.popularity}
+        release_date={result.release_date}
+        overview={result.overview}
+        overview2={data.results[1].overview}
+        baseImageURL={baseImageURL}
+        poster_path={result.poster_path}
+        backdrop_path={result.backdrop_path}
 
-    <Overview
-      id={result.id}
-     overview={result.overview}
-      title={result.title}
-      key={result.id}
-      vote_average={result.vote_average}
-      original_language={result.original_language.toUpperCase()}
-      popularity={result.popularity}
-      release_date={result.release_date}
-      baseImageURL={baseImageURL}
-      poster_path={result.poster_path}
-      backdrop_path={result.backdrop_path}
 
-    />
+        />} />
+        <Route path="trending" element={<Trending />} />
+        <Route path="people" element={<People />} />
+        <Route path="tvshows" element={<TVShows />} />
 
-</Route>
-  ))}
-        </Switch>
-      </BrowserRouter>
-    </div>
+  <Route path="overview" element={<Overview
+
+    overview={result.overview}
+
+
+
+
+  />} />
+
+
+
+
+      </Routes>
+        ))}
+
+          </div>
   );
 }
-
 export default App;

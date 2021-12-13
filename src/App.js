@@ -1,6 +1,8 @@
 import React from 'react';
 import { Routes, Route} from "react-router-dom";
+
 import Movies from "./components/movieapis/Movies";
+
 import People from "./components/movieapis/People";
 import TVShows from "./components/movieapis/TVShows";
 import Header from "./Header";

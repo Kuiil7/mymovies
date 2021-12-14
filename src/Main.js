@@ -1,7 +1,7 @@
 import React from 'react';
 import Movies from "../Movies";
-import People from "./movieapis/People";
-import TVShows from "./movieapis/TVShows";
+import People from "../People";
+import TVShows from "../TVShows";
 
 
 function Main() {

@@ -69,15 +69,11 @@ function Movies() {
 <div className="columns p-2 is-mobile  ">
 {data.results  && data.results.map((result, moviesIndex2)=> (
 <div key={moviesIndex2} className="column is-2-desktop is-6-mobile  box m-1  " >
-
-  <img alt="movie poster" className="card" src={ baseImageURL + result.poster_path} onError={e => e.target.style.display = 'none'}  />
-
+<img alt="movie poster" className="card" src={ baseImageURL + result.poster_path} onError={e => e.target.style.display = 'none'}  />
 <div>
-
 <p className=' title is-size-6 is-primary  has-text-primary m-0 '>{result.title}</p>
 <p className=' title is-size-6 is-primary mt-2 '>Release: {DateTime.fromISO(result.release_date).toFormat('LL/d/y')}
 </p>
-
 <div>
 <button onClick={() => setVisible(!visible)}>
 {visible ? 'Hide' : 'Show'}

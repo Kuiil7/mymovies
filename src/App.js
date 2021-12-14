@@ -8,7 +8,7 @@ import Main from "./components/Main";
 
 require('dotenv').config()
 
-function App(props) {
+function App() {
   return (
     <div className="container">
 <Header />

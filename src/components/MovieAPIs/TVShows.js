@@ -19,8 +19,8 @@ function TVShows() {
   const [url, setUrl] = useState(`${baseAiringTodayURL}api_key=${process.env.REACT_APP_MOVIE_API_KEY}`);
 
   const [visible, setVisible] = useState(false);
-  const [show, setShow] = useState(true) 
- 
+  const [show, setShow] = useState(true)
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -69,7 +69,6 @@ function TVShows() {
 
 
 {isError && <div>Something went wrong ...</div>}
-
 {isLoading ? (<div>Loading Most Popular Movies...</div>) :
 (<div className="container  scrolling-wrapper pb-4 pl-4 ">
 <p className="title is-4">TV Shows airing today</p>

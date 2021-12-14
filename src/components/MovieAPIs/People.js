@@ -78,12 +78,10 @@ function People () {
 <i className="fas fa-star has-text-warning fa-1x  mr-1"></i>
 {result.popularity}
 <div className="is-mobile has-text-primary mt-2" >
-<p   >{result.known_for[0].title }</p>
+<p >{result.known_for[0].title }</p>
 <p >{result.known_for[1].title}</p>
 <p >{result.known_for[2].title}</p>
 </div>
-
-
 </section>
 </div>
  ))}

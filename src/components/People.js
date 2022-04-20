@@ -31,10 +31,13 @@ function People () {
 
 
 
-  return (<>
+  return (
+  <>
+  <main aria-labelledby="people search page with displayed results">
+
   <div className="columns mt-4">
   <div className="column is-3">
-  <p className="title mt-5">People</p>
+  <h1 className="title mt-5">People</h1>
   </div>
   <div className="column is-8">
   <form onSubmit={event => {setUrl(`https://api.themoviedb.org/3/search/person?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&language=en-US&page=1&include_adult=false&query=${query}`);
@@ -49,7 +52,7 @@ function People () {
           className="input is-primary mb-2 is-rounded"
           placeholder="enter a person name"
         />
-   <button className="button is-small is-rounded is-primary" type="submit">Search</button>
+   <button className="button is-small is-rounded is-primary" type="submit" role="button" aria-pressed="false">Search</button>
   </div>
  </form>
 
@@ -63,7 +66,7 @@ function People () {
 <div>Loading People...</div>
 ) : (
 <div className="container scrolling-wrapper  ">
-<p className="title is-4">Trending people this week</p>
+<h2 className="title is-4">Trending people this week</h2>
 
 <div className="columns   p-2 is-mobile ">
 {data.results  && data.results.map((result, peopleIndex) => (
@@ -88,6 +91,7 @@ function People () {
 </div>
 </div>
       )}
+      </main>
     </>
   );
 }

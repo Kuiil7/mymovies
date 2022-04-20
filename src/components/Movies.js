@@ -35,10 +35,11 @@ function Movies() {
   return (
 
   <>
+<main aria-labelledby="movie search page with displayed results">
 
 <div className="columns">
   <div className="column is-3">
-  <p className="title is-3  p-4 ">Search Movies</p>
+  <h1 className="title is-3  p-4 ">Search Movies</h1>
   </div>
   <div className="column">
   <form onSubmit={event => {
@@ -55,7 +56,7 @@ function Movies() {
           onClick={() => setShow(!show)}
 
         />
-   <button className="button is-small is-rounded is-primary" type="submit">Search</button>
+   <button className="button is-small is-rounded is-primary" type="submit" role="button" aria-pressed="false">Search</button>
   </div>
  </form>
   </div>
@@ -65,7 +66,7 @@ function Movies() {
 {isLoading ? (<div>Loading Most Popular Movies...</div>) : (
 
 <div className="container scrolling-wrapper pb-4 pl-4 ">
-  <p className="title is-4">Trending Movies</p>
+  <h2 className="title is-4">Trending Movies</h2>
 <div className="columns p-2 is-mobile  ">
 {data.results  && data.results.map((result, moviesIndex2)=> (
 <div key={moviesIndex2} className="column is-2-desktop is-6-mobile  box m-1  " >
@@ -85,7 +86,9 @@ function Movies() {
  ))}
 </div>
         </div>
+
       )}
+      </main>
     </>
   );
 }

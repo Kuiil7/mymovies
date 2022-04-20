@@ -1,9 +1,9 @@
 import React from 'react';
 import { Routes, Route} from "react-router-dom";
-import Movies from "./Movies";
-import People from "./People";
-import TVShows from "./TVShows";
-import Header from "./Header";
+import Movies from "./components/Movies";
+import People from "./components/People";
+import TVShows from "./components/TVShows";
+import Header from "./components/Header";
 import Main from "./components/Main";
 
 require('dotenv').config()

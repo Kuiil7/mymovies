@@ -35,6 +35,8 @@ function TVShows() {
 
   return (
   <>
+  <main aria-labelledby="tv shows search page with displayed results">
+
   <div className="columns mt-4">
   <div className="column is-3">
   <p className="title p-5">TV Shows</p>
@@ -54,7 +56,7 @@ function TVShows() {
           onClick={() => setShow(!show)}
 
         />
-   <button className="button is-small is-rounded is-primary" type="submit">Search</button>
+   <button className="button is-small is-rounded is-primary" type="submit" role="button" aria-pressed="false">Search</button>
   </div>
  </form>
   </div>
@@ -64,7 +66,7 @@ function TVShows() {
 
 {isLoading ? (<div>Loading Most Popular Movies...</div>) :
 (<div className="container  scrolling-wrapper pb-4 pl-4 ">
-<p className="title is-4">TV Shows airing today</p>
+<h2 className="title is-4">TV Shows airing today</h2>
 <div className="columns p-2 is-mobile  ">
 {data.results  && data.results.map((result, tvshowsIndex)=> (
 <div key={tvshowsIndex} className="column is-6-mobile is-2-desktop box m-1  " >
@@ -84,13 +86,7 @@ function TVShows() {
 </div>
  </div>
 )}
-
-
-
-
-
-
-
+</main>
     </>
   );
 }

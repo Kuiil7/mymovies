@@ -15,7 +15,7 @@ function TVShows() {
   const baseImageURL = 'https://image.tmdb.org/t/p/original/'
   const baseAiringTodayURL = 'https://api.themoviedb.org/3/tv/airing_today?'
   const baseTVSearchURL = 'https://api.themoviedb.org/3/search/tv?'
-  const [url, setUrl] = useState(`${baseAiringTodayURL}api_key=${process.env.REACT_APP_MOVIE_API_KEY}`);
+  const [url, setUrl] = useState(`${baseAiringTodayURL}api_key=${process.env.REACT_APP_MOVIES_API_KEY}`);
 
   const [visible, setVisible] = useState(false);
   const [show, setShow] = useState(true)

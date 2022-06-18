@@ -13,11 +13,9 @@ function Movies() {
   const baseImageURL = 'https://image.tmdb.org/t/p/original/'
   const baseSearchURL = 'https://api.themoviedb.org/3/search/trending?'
   const baseMovieURL = 'https://api.themoviedb.org/3/movie/popular?'
-  const [url, setUrl] = useState(`${baseMovieURL}api_key=${process.env.REACT_APP_MOVIE_API_KEY}`);
-
+  const [url, setUrl] = useState(`${baseMovieURL}api_key=${process.env.REACT_APP_MOVIES_API_KEY}`);
   const [visible, setVisible] = useState(false);
   const [show, setShow] = useState(true)
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,6 +27,7 @@ function Movies() {
       console.log(result.data)
     };
     fetchData();
+
   }, [url]);
 
 
@@ -43,7 +42,7 @@ function Movies() {
   </div>
   <div className="column">
   <form onSubmit={event => {
-        setUrl(`${baseSearchURL}api_key=${process.env.REACT_APP_MOVIE_API_KEY}&query=${query}}`);
+        setUrl(`${baseSearchURL}api_key=${process.env.REACT_APP_MOVIES_API_KEY}&query=${query}}`);
         event.preventDefault();
       }}>
   <div className="column is-8 ">
@@ -68,7 +67,7 @@ function Movies() {
 <div className="container scrolling-wrapper pb-4 pl-4 ">
   <h2 className="title is-4">Trending Movies</h2>
 <div className="columns p-2 is-mobile  ">
-{data.results  && data.results.map((result, moviesIndex2)=> (
+{data.results && data.results.map((result, moviesIndex2)=> (
 <div key={moviesIndex2} className="column is-2-desktop is-6-mobile  box m-1  " >
 <img alt="movie poster" className="card" src={ baseImageURL + result.poster_path} onError={e => e.target.style.display = 'none'}  />
 <div>

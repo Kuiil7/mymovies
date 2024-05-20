@@ -4,7 +4,6 @@ import axios from 'axios';
 import { DateTime } from 'luxon';
 import {  Link } from 'react-router-dom';
 
-require('dotenv').config()
 
 function TVShows() {
 
@@ -14,11 +13,13 @@ function TVShows() {
   const [isLoading, setIsLoading] = useState(false);
   const baseImageURL = 'https://image.tmdb.org/t/p/original/'
   const baseAiringTodayURL = 'https://api.themoviedb.org/3/tv/airing_today?'
-  const baseTVSearchURL = 'https://api.themoviedb.org/3/search/tv?'
-  const [url, setUrl] = useState(`${baseAiringTodayURL}api_key=${process.env.REACT_APP_MOVIES_API_KEY}`);
+  const [url, setUrl] = useState(`${baseAiringTodayURL}api_key=${process.env.REACT_APP_API_KEY}`);
 
   const [visible, setVisible] = useState(false);
   const [show, setShow] = useState(true)
+
+const baseTVSearchURL =`https://api.themoviedb.org/3/search/tv?query=${query}&api_key=${process.env.REACT_APP_API_KEY}`
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,14 +37,13 @@ function TVShows() {
   return (
   <>
   <main aria-labelledby="tv shows search page with displayed results">
-
   <div className="columns mt-4">
   <div className="column is-3">
   <p className="title p-5">TV Shows</p>
   </div>
   <div className="column is-8 mt-2">
   <form onSubmit={event => {
-        setUrl(`${baseTVSearchURL}api_key=${process.env.REACT_APP_MOVIE_API_KEY}&query=${query}}`);
+        setUrl(`${baseTVSearchURL}`);
         event.preventDefault();
       }}>
   <div className="column is-8 ">

@@ -6,7 +6,6 @@ import TVShows from "./components/TVShows";
 import Header from "./components/Header";
 import Main from "./components/Main";
 
-require('dotenv').config()
 
 function App() {
   return (

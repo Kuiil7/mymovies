@@ -1,7 +1,6 @@
 import React, {useState, useEffect } from 'react';
 import axios from 'axios';
 
-require('dotenv').config()
 
 function People() {
 
@@ -10,10 +9,11 @@ function People() {
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const baseImageURL = 'https://image.tmdb.org/t/p/original/'
-  const baseSearchURL = 'https://api.themoviedb.org/3/search/person?'
   const baseMovieURL = 'https://api.themoviedb.org/3/trending/person/week?'
-  const [url, setUrl] = useState(`${baseMovieURL}api_key=${process.env.REACT_APP_MOVIES_API_KEY}`);
+  const [url, setUrl] = useState(`${baseMovieURL}api_key=${process.env.REACT_APP_API_KEY}`);
   const [show, setShow] = useState(true)
+
+  const baseTVSearchURL =`https://api.themoviedb.org/3/search/person?query=${query}&api_key=${process.env.REACT_APP_API_KEY}`
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +40,7 @@ function People() {
   </div>
   <div className="column">
   <form onSubmit={event => {
-        setUrl(`${baseSearchURL}api_key=${process.env.REACT_APP_MOVIES_API_KEY}&query=${query}}`);
+        setUrl(`${baseTVSearchURL}`);
         event.preventDefault();
       }}>
   <div className="column is-8 ">

@@ -2,8 +2,6 @@ import React, {useState, useEffect } from 'react';
 import axios from 'axios';
 import { DateTime } from 'luxon';
 
-require('dotenv').config()
-
 function Movies() {
 
   const [data, setData] = useState({ results: [] });
@@ -11,9 +9,17 @@ function Movies() {
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const baseImageURL = 'https://image.tmdb.org/t/p/original/'
-  const baseSearchURL = 'https://api.themoviedb.org/3/search/trending?'
+
+  const baseSearchURL = 'https://api.themoviedb.org/3/search/movies?'
+
   const baseMovieURL = 'https://api.themoviedb.org/3/movie/popular?'
-  const [url, setUrl] = useState(`${baseMovieURL}api_key=${process.env.REACT_APP_MOVIES_API_KEY}`);
+  
+  const [url, setUrl] = useState(`${baseMovieURL}api_key=${process.env.REACT_APP_API_KEY}`);
+
+  const searchURL =`https://api.themoviedb.org/3/search/movie?query=${query}&api_key=${process.env.REACT_APP_API_KEY}`
+  
+  
+
   const [visible, setVisible] = useState(false);
   const [show, setShow] = useState(true)
 
@@ -42,7 +48,7 @@ function Movies() {
   </div>
   <div className="column">
   <form onSubmit={event => {
-        setUrl(`${baseSearchURL}api_key=${process.env.REACT_APP_MOVIES_API_KEY}&query=${query}}`);
+        setUrl(`${searchURL}`);
         event.preventDefault();
       }}>
   <div className="column is-8 ">

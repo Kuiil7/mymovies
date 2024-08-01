@@ -3,53 +3,48 @@ import axios from 'axios';
 import { DateTime } from 'luxon';
 
 function Movies() {
-  const [data, setData] = useState({ results: [] });
+  const [data, setData] = useState({ results: [], total_pages: 1 });
   const [isError, setIsError] = useState(false);
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1); // Track the current page number
   const [currentChunk, setCurrentChunk] = useState(0); // Track the current chunk
+  const [modalMovie, setModalMovie] = useState(null); // State to track the movie for modal
   const baseImageURL = 'https://image.tmdb.org/t/p/original/';
   const itemsPerChunk = 5; // Number of movies per chunk
 
   const baseSearchURL = 'https://api.themoviedb.org/3/search/movie?';
   const baseMovieURL = 'https://api.themoviedb.org/3/movie/popular?';
 
-  const [url, setUrl] = useState(`${baseMovieURL}api_key=${process.env.REACT_APP_API_KEY}&page=${currentPage}`);
-  const searchURL = `${baseSearchURL}query=${query}&api_key=${process.env.REACT_APP_API_KEY}&page=${currentPage}`;
-
-  const [visibility, setVisibility] = useState({});
-
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       setIsError(false);
       try {
+        const url = query 
+          ? `${baseSearchURL}query=${query}&api_key=${process.env.REACT_APP_API_KEY}&page=${currentPage}`
+          : `${baseMovieURL}api_key=${process.env.REACT_APP_API_KEY}&page=${currentPage}`;
+          
         const result = await axios(url);
-        setData(prevData => ({
-          ...prevData,
-          results: result.data.results // Replace with the new set of results
-        }));
+        setData({
+          results: result.data.results,
+          total_pages: result.data.total_pages // Update the total number of pages
+        });
+        setCurrentChunk(0); // Reset chunk when new data is fetched
       } catch (error) {
         setIsError(true);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchData();
-  }, [url]);
 
-  const handleVisibilityToggle = (index) => {
-    setVisibility(prev => ({
-      ...prev,
-      [index]: !prev[index]
-    }));
-  };
+    fetchData();
+  }, [query, currentPage]);
 
   const goToNextChunk = () => {
-    if (currentChunk * itemsPerChunk + itemsPerChunk < data.results.length) {
+    if ((currentChunk + 1) * itemsPerChunk < data.results.length) {
       setCurrentChunk(prevChunk => prevChunk + 1);
-    } else {
+    } else if (currentPage < data.total_pages) {
       setCurrentPage(prevPage => prevPage + 1);
       setCurrentChunk(0); // Reset chunk when moving to the next page
     }
@@ -64,11 +59,20 @@ function Movies() {
     }
   };
 
-  useEffect(() => {
-    if (currentPage > 1 || currentChunk > 0) {
-      setUrl(`${baseMovieURL}api_key=${process.env.REACT_APP_API_KEY}&page=${currentPage}`);
-    }
-  }, [currentPage, currentChunk]);
+  const handleSearch = (event) => {
+    event.preventDefault();
+    setCurrentPage(1); // Reset to page 1 on new search
+    setCurrentChunk(0); // Reset chunk when searching
+    setQuery(event.target.query.value);
+  };
+
+  const handleModalOpen = (movie) => {
+    setModalMovie(movie);
+  };
+
+  const handleModalClose = () => {
+    setModalMovie(null);
+  };
 
   return (
     <>
@@ -78,19 +82,15 @@ function Movies() {
             <h1 className="title is-3 p-4">Search Movies</h1>
           </div>
           <div className="column">
-            <form onSubmit={event => {
-              setCurrentPage(1); // Reset to page 1 on new search
-              setCurrentChunk(0); // Reset chunk when searching
-              setUrl(`${searchURL}&page=1`);
-              event.preventDefault();
-            }}>
+            <form onSubmit={handleSearch}>
               <div className="column is-8">
                 <input
                   type="text"
+                  name="query"
                   value={query}
                   onChange={event => setQuery(event.target.value)}
                   className="input is-primary mb-2 is-rounded"
-                  placeholder="enter a movie name"
+                  placeholder="Enter a movie name"
                 />
                 <button className="button is-small is-rounded is-primary" type="submit" role="button" aria-pressed="false">Search</button>
               </div>
@@ -111,12 +111,9 @@ function Movies() {
                   <div>
                     <p className='title is-size-6 is-primary has-text-primary m-0'>{result.title}</p>
                     <p className='title is-size-6 is-primary mt-2'>Release: {DateTime.fromISO(result.release_date).toFormat('LL/d/y')}</p>
-                    <div>
-                      <button onClick={() => handleVisibilityToggle(index)}>
-                        {visibility[index] ? 'Hide' : 'Show'}
-                      </button>
-                      {visibility[index] && <div>{result.overview}</div>}
-                    </div>
+                    <button onClick={() => handleModalOpen(result)} className="button is-small is-rounded is-primary">
+                      View Overview
+                    </button>
                   </div>
                 </div>
               ))}
@@ -131,12 +128,30 @@ function Movies() {
               </button>
               <button
                 onClick={goToNextChunk}
-                disabled={data.results.length <= (currentChunk + 1) * itemsPerChunk && !isLoading}
+                disabled={currentPage >= data.total_pages && (currentChunk + 1) * itemsPerChunk >= data.results.length}
                 className="button is-small is-rounded is-primary"
               >
                 Next →
               </button>
             </div>
+          </div>
+        )}
+
+        {modalMovie && (
+          <div className="modal is-active">
+            <div className="modal-background" onClick={handleModalClose}></div>
+            <div className="modal-content">
+              <div className="box">
+                <h2 className="title is-4">{modalMovie.title}</h2>
+                <p>{modalMovie.overview}</p>
+                <br/>
+                <p><strong>Release Date: </strong>{DateTime.fromISO(modalMovie.release_date).toFormat('LL/d/y')}</p>
+                <p><strong>Vote: </strong>{modalMovie.vote_average}</p>
+                <p><strong>Popularity: </strong>{modalMovie.popularity}</p>
+                <button className="button is-small is-rounded is-primary" onClick={handleModalClose}>Close</button>
+              </div>
+            </div>
+            <button className="modal-close is-large" aria-label="close" onClick={handleModalClose}></button>
           </div>
         )}
       </main>

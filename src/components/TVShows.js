@@ -20,6 +20,8 @@ function TVShows() {
 
 const baseTVSearchURL =`https://api.themoviedb.org/3/search/tv?query=${query}&api_key=${process.env.REACT_APP_API_KEY}`
   
+const [visibility, setVisibility] = useState({});
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,6 +35,12 @@ const baseTVSearchURL =`https://api.themoviedb.org/3/search/tv?query=${query}&ap
     fetchData();
   }, [url]);
 
+  const handleVisibilityToggle = (index) => {
+    setVisibility(prev => ({
+      ...prev,
+      [index]: !prev[index]
+    }));
+  };
 
   return (
   <>
@@ -68,18 +76,18 @@ const baseTVSearchURL =`https://api.themoviedb.org/3/search/tv?query=${query}&ap
 (<div className="container  scrolling-wrapper pb-4 pl-4 ">
 <h2 className="title is-4">TV Shows airing today</h2>
 <div className="columns p-2 is-mobile  ">
-{data.results  && data.results.map((result, tvshowsIndex)=> (
-<div key={tvshowsIndex} className="column is-6-mobile is-2-desktop box m-1  " >
+{data.results  && data.results.map((result, Index)=> (
+<div key={Index} className="column is-6-mobile is-2-desktop box m-1  " >
 <Link to={{pathname: '/overview', state: { result: data.results}}}>
 <img alt="movie poster" src={ baseImageURL + result.poster_path} onError={e => e.target.style.display = 'none'}  /></Link>
 <p className=' title is-size-6 is-primary  has-text-primary m-0 '>{result.name}</p>
 <p className=' title is-size-6 is-primary mt-2 '>Release: {DateTime.fromISO(result.first_air_date).toFormat('LL/d/y')}</p>
 
 <div>
-<button onClick={() => setVisible(!visible)}>
-{visible ? 'Hide' : 'Show'}
-</button>
-{visible && <div>{result.overview }</div>}
+<button onClick={() => handleVisibilityToggle(Index)}>
+                        {visibility[Index] ? 'Hide' : 'Show'}
+                      </button>
+                      {visibility[Index] && <div>{result.overview}</div>}
 </div>
 </div>
  ))}
